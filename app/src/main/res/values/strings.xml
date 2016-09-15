@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Concourse</string>
+    <string name="edit_server_name">Server Name</string>
+    <string name="edit_server_url">Server URL</string>
+    <string name="edit_server_proxy_host">Proxy Host</string>
+    <string name="edit_server_proxy_port">Proxy Port</string>
 </resources>
