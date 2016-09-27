@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         final ListView list = (ListView) this.findViewById(R.id.pipelines);
         list.setAdapter(new PipelineListAdapter(this));
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://concourse.rdbrck.com/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -34,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
         ConcourseAPIService concourse = retrofit.create(ConcourseAPIService.class);
 
         Call<List<Pipeline>> call = concourse.getPipelines ();
-
-        call.enqueue((Call<List<Pipeline>> mCall, Response<List<Pipeline>> response) -> {
-
-        });
 
         call.enqueue(new Callback<List<Pipeline>>() {
             @Override
