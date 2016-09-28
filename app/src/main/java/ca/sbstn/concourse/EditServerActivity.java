@@ -31,10 +31,10 @@ public class EditServerActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 realm.beginTransaction();
 
-                int id = (int) realm.where(Concourse.class).count();
+                //int id = (int) realm.where(Concourse.class).count();
 
                 Concourse server = realm.createObject(Concourse.class);
-                server.setId(id);
+                //server.setId(id);
                 server.setName(((TextView) EditServerActivity.this.findViewById(R.id.edit_server_name)).getText().toString());
 
                 realm.commitTransaction();

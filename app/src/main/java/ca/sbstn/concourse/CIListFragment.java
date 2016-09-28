@@ -2,6 +2,7 @@ package ca.sbstn.concourse;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class CIListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        Realm.init(this.getContext());
         Realm realm = Realm.getDefaultInstance();
         List<Concourse> ciServers = realm.where(Concourse.class).findAll();
 
@@ -41,6 +43,8 @@ public class CIListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ci_list_fragment, container, false);
+
+        Log.d("adasd", "hjere2");
 
         this.ciList = (ListView) view.findViewById(R.id.ci_list);
 
