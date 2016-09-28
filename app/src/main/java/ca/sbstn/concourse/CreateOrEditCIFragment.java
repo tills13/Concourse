@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ca.sbstn.concourse.api.model.Concourse;
 import io.realm.Realm;
 
 public class CreateOrEditCIFragment extends Fragment {
+    public static final String TAG = "CreateOrEditCIFragment";
     private static final String ARG_NAME = "ARG_NAME";
 
     private String ciName; // name of ci server we are editing
@@ -75,7 +77,14 @@ public class CreateOrEditCIFragment extends Fragment {
 
     public void onSave() {
         Realm realm = Realm.getDefaultInstance();
-        realm.where()
+
+        realm.beginTransaction();
+        Concourse ci = realm.where(Concourse.class).equalTo("name", this.ciName).findFirst();
+
+
+        realm.commitTransaction();
+
+
     }
 
     public interface OnFragmentInteractionListener {

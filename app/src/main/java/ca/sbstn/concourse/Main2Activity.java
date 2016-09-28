@@ -2,7 +2,6 @@ package ca.sbstn.concourse;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,14 +16,17 @@ public class Main2Activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
 
-        FragmentManager fm = this.getSupportFragmentManager();
+        final FragmentManager fm = this.getSupportFragmentManager();
 
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.fab);
 
-        fab.setOnClickListener((View view) -> {
-            fm.beginTransaction().add();
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    //.setAction("Action", null).show();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fm.beginTransaction()
+                    .add(CreateOrEditCIFragment.newInstance(), CreateOrEditCIFragment.TAG)
+                    .commit();
+            }
         });
     }
 }
