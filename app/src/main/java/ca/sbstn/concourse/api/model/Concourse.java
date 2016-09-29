@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 public class Concourse extends RealmObject {
     @PrimaryKey
     protected String name;
-    protected String url;
+    protected String host;
     protected String proxyHost;
     protected int proxyPort;
 
@@ -34,11 +34,11 @@ public class Concourse extends RealmObject {
         this.proxyPort = proxyPort;
     }
 
-    public String getUrl() {
-        return this.url;
+    public String getHost() {
+        return this.host;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setHost(String host) {
+        this.host = host;
     }
 }

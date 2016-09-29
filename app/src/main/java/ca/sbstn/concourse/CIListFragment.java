@@ -2,10 +2,10 @@ package ca.sbstn.concourse;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -19,6 +19,7 @@ import io.realm.Realm;
  */
 public class CIListFragment extends Fragment {
     protected ListView ciList;
+    protected OnCISelectedListener onCISelectedListener;
 
     public CIListFragment() {}
 
@@ -44,13 +45,40 @@ public class CIListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ci_list_fragment, container, false);
 
-        Log.d("adasd", "hjere2");
-
         this.ciList = (ListView) view.findViewById(R.id.ci_list);
 
         CIListAdapter adapter = new CIListAdapter(this.getContext());
         this.ciList.setAdapter(adapter);
 
+        this.ciList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Concourse ci = ((CIListAdapter) adapterView.getAdapter()).getItem(i);
+
+                if (CIListFragment.this.onCISelectedListener != null) {
+                    CIListFragment.this.onCISelectedListener.onCISelected(ci);
+                }
+            }
+        });
+
+        this.ciList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Concourse ci = ((CIListAdapter) adapterView.getAdapter()).getItem(i);
+
+                if (CIListFragment.this.onCISelectedListener != null) {
+                    return CIListFragment.this.onCISelectedListener.onCILongPressed(ci);
+                }
+
+                return false;
+            }
+        });
+
         return view;
+    }
+
+    public interface OnCISelectedListener {
+        void onCISelected(Concourse ci);
+        boolean onCILongPressed(Concourse ci);
     }
 }

@@ -1,7 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateOrEditCIFragment">
+    android:padding="@dimen/window_view_padding"
+    android:orientation="vertical">
+    <EditText
+        android:id="@+id/ci_name"
+        android:hint="@string/create_edit_ci_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/ci_host"
+        android:hint="@string/create_edit_ci_host"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/ci_proxy_host"
+        android:hint="@string/create_edit_ci_proxy_host"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/ci_proxy_port"
+        android:hint="@string/create_edit_ci_proxy_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
+</LinearLayout>

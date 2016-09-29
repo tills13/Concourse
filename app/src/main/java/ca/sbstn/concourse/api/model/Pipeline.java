@@ -1,16 +1,37 @@
 package ca.sbstn.concourse.api.model;
 
-/**
- * Created by tills13 on 2016-09-14.
- */
 public class Pipeline {
-    public String name;
-    public String url;
-    public boolean paused;
+    protected String name;
+    protected String url;
+    protected boolean paused;
 
     public Pipeline(String name, String url, boolean paused) {
         this.name = name;
         this.url = url;
         this.paused = paused;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
