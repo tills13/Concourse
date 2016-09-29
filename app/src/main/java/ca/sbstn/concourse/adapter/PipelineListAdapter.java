@@ -32,7 +32,7 @@ public class PipelineListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Pipeline getItem(int position) {
         return this.pipelines.get(position);
     }
 
@@ -44,7 +44,7 @@ public class PipelineListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView v = new TextView(this.context);
-        v.setText(((Pipeline) this.getItem(position)).name);
+        v.setText(this.getItem(position).getName());
 
         return v;
     }

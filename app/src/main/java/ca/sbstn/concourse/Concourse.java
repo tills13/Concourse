@@ -5,14 +5,12 @@ import android.app.Application;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-/**
- * Created by tills13 on 9/27/2016.
- */
-
 public class Concourse extends Application {
-    public Concourse() {
-        super();
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
+        Realm.init(this);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .schemaVersion(1)

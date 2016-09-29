@@ -4,17 +4,18 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import ca.sbstn.concourse.api.model.Concourse;
 
-public class ManageCIActivity extends AppCompatActivity implements CIListFragment.OnCISelectedListener {
+public class ManageCIActivity extends AppCompatActivity implements CIListFragment.OnCISelectedListener, CreateOrEditCIFragment.OnCreateOrSaveCIListener {
     protected FragmentManager fm;
 
     protected FloatingActionButton fab;
-    protected Toolbar toolbar;
+    protected ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +24,14 @@ public class ManageCIActivity extends AppCompatActivity implements CIListFragmen
 
         this.fm = this.getSupportFragmentManager();
 
-        this.toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         this.fab = (FloatingActionButton) this.findViewById(R.id.fab);
 
-        this.setSupportActionBar(this.toolbar);
-        this.toolbar.setTitle("Concourse");
+        this.setSupportActionBar((Toolbar) this.findViewById(R.id.toolbar));
+        this.actionBar = this.getSupportActionBar();
+
+        if (this.actionBar != null) {
+            this.actionBar.setTitle("Concourse");
+        }
 
         FragmentTransaction transaction = this.fm.beginTransaction();
         transaction.add(R.id.fragment_container, CIListFragment.newInstance()).commit();
@@ -67,5 +71,10 @@ public class ManageCIActivity extends AppCompatActivity implements CIListFragmen
     @Override
     public void onCISelected(Concourse ci) {
 
+    }
+
+    @Override
+    public void onCreateOrSaveCI(Concourse ci) {
+        this.fm.popBackStack();
     }
 }

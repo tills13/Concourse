@@ -1,12 +1,16 @@
 package ca.sbstn.concourse;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -19,14 +23,20 @@ import io.realm.Realm;
  */
 public class CIListFragment extends Fragment {
     protected ListView ciList;
+    protected TextView listEmptyNotice;
     protected OnCISelectedListener onCISelectedListener;
 
     public CIListFragment() {}
 
     public static CIListFragment newInstance() {
-        CIListFragment fragment = new CIListFragment();
+        return new CIListFragment();
+    }
 
-        return fragment;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        this.onCISelectedListener = (ManageCIActivity) context;
     }
 
     @Override
@@ -37,6 +47,12 @@ public class CIListFragment extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         List<Concourse> ciServers = realm.where(Concourse.class).findAll();
 
+        if (ciServers.size() == 0) {
+            this.listEmptyNotice.setVisibility(View.VISIBLE);
+        } else {
+            this.listEmptyNotice.setVisibility(View.GONE);
+        }
+
         ((CIListAdapter) this.ciList.getAdapter()).setServers(ciServers);
         ((CIListAdapter) this.ciList.getAdapter()).notifyDataSetChanged();
     }
@@ -46,6 +62,7 @@ public class CIListFragment extends Fragment {
         View view = inflater.inflate(R.layout.ci_list_fragment, container, false);
 
         this.ciList = (ListView) view.findViewById(R.id.ci_list);
+        this.listEmptyNotice = (TextView) view.findViewById(R.id.ci_list_empty_notice);
 
         CIListAdapter adapter = new CIListAdapter(this.getContext());
         this.ciList.setAdapter(adapter);

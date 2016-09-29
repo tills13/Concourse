@@ -3,7 +3,13 @@ package ca.sbstn.concourse;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -24,7 +30,7 @@ public class CreateOrEditCIFragment extends Fragment {
     protected EditText ciProxyHostEditText;
     protected EditText ciProxyPortEditText;
 
-    private OnFragmentInteractionListener mListener;
+    private OnCreateOrSaveCIListener onCreateOrSaveCIListener;
 
     public CreateOrEditCIFragment() {}
 
@@ -43,6 +49,13 @@ public class CreateOrEditCIFragment extends Fragment {
 
     public static CreateOrEditCIFragment newInstance() {
         return CreateOrEditCIFragment.newInstance(null);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        this.onCreateOrSaveCIListener = (ManageCIActivity) context;
     }
 
     @Override
@@ -72,49 +85,83 @@ public class CreateOrEditCIFragment extends Fragment {
                 this.ciNameEditText.setText(ci.getName());
                 this.ciHostEditText.setText(ci.getHost());
                 this.ciProxyHostEditText.setText(ci.getProxyHost());
-                this.ciProxyPortEditText.setText(ci.getProxyPort());
+                this.ciProxyPortEditText.setText(String.format("%d", ci.getProxyPort()));
+
+                ActionBar actionBar = ((AppCompatActivity) this.getActivity()).getSupportActionBar();
+
+                if (actionBar != null) {
+                    actionBar.setTitle(String.format("Editing %s", ci.getName()));
+                }
             } else {
                 this.ciName = null; // why
             }
         }
 
+        this.setHasOptionsMenu(true);
+
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        menu.clear();
+        inflater.inflate(R.menu.create_or_edit_server_menu, menu);
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                Concourse ci;
+
+                if ((ci = this.onSave()) != null) {
+                    if (this.onCreateOrSaveCIListener != null) {
+                        this.onCreateOrSaveCIListener.onCreateOrSaveCI(ci);
+                    }
+
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    public void onSave() {
+    public Concourse onSave() {
         Realm realm = Realm.getDefaultInstance();
+        String primaryKey = this.ciNameEditText.getText().toString();
 
         realm.beginTransaction();
 
+        // TODO: 9/28/2016 cover the case  where the user has changed the name of the instance
+
         Concourse ci = (this.ciName != null && !this.ciName.equals("")) ?
             realm.where(Concourse.class).equalTo("name", this.ciName).findFirst() :
-            realm.createObject(Concourse.class); // create a tracked realm object
+            realm.createObject(Concourse.class, primaryKey); // create a tracked realm object
 
-        ci.setName(this.ciNameEditText.getText().toString());
+        if (this.ciName != null && !this.ciName.equals(primaryKey)) {
+            ci.setName(primaryKey);
+        }
+
         ci.setHost(this.ciHostEditText.getText().toString());
         ci.setProxyHost(this.ciProxyHostEditText.getText().toString());
-        ci.setProxyPort(Integer.parseInt(this.ciProxyPortEditText.getText().toString()));
+
+        try {
+            ci.setProxyPort(Integer.parseInt(this.ciProxyPortEditText.getText().toString()));
+        } catch (NumberFormatException e) {}
 
         realm.commitTransaction();
+
+        return ci;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction();
+    public interface OnCreateOrSaveCIListener {
+        void onCreateOrSaveCI(Concourse ci);
     }
-
 }
