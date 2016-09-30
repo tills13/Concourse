@@ -9,6 +9,7 @@
         android:id="@+id/ci_list_empty_notice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/window_view_padding"
         android:text="@string/ci_list_empty_notice"/>
 
     <ListView

@@ -1,5 +1,6 @@
 package ca.sbstn.concourse;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -54,6 +55,8 @@ public class ManageCIActivity extends AppCompatActivity implements CIListFragmen
     protected void onResume() {
         super.onResume();
 
+        this.actionBar.setTitle(getString(R.string.app_name));
+
         this.fm.beginTransaction().replace(
             R.id.fragment_container,
             CIListFragment.newInstance()
@@ -70,9 +73,14 @@ public class ManageCIActivity extends AppCompatActivity implements CIListFragmen
         return true;
     }
 
+    // TODO: 29/09/16  potentially open in the same activity, depending on the size of the device
+
     @Override
     public void onCISelected(Concourse ci) {
+        Intent intent = new Intent(this, CIActivity.class);
+        intent.putExtra(CIActivity.ARG_CI_NAME, ci.getName());
 
+        startActivity(intent);
     }
 
     @Override

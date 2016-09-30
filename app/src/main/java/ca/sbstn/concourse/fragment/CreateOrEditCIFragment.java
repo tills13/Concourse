@@ -20,6 +20,7 @@ import ca.sbstn.concourse.ManageCIActivity;
 import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.api.model.Concourse;
 import io.realm.Realm;
+import okhttp3.HttpUrl;
 
 public class CreateOrEditCIFragment extends Fragment {
     public static final String TAG = "CreateOrEditCIFragment";
@@ -152,7 +153,15 @@ public class CreateOrEditCIFragment extends Fragment {
             ci.setName(primaryKey);
         }
 
-        ci.setHost(this.ciHostEditText.getText().toString());
+        HttpUrl hostUrl = HttpUrl.parse(this.ciHostEditText.getText().toString());
+
+        if (hostUrl == null) {
+            Snackbar.make(this.layout, "Please enter a valid host URL", Snackbar.LENGTH_LONG).show();
+            realm.cancelTransaction();
+            return null;
+        }
+
+        ci.setHost(hostUrl.toString());
         ci.setProxyHost(this.ciProxyHostEditText.getText().toString());
 
         String portString = this.ciProxyPortEditText.getText().toString();
