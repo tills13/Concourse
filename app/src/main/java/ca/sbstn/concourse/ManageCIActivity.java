@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import ca.sbstn.concourse.api.model.Concourse;
+import ca.sbstn.concourse.fragment.CIListFragment;
+import ca.sbstn.concourse.fragment.CreateOrEditCIFragment;
 
 public class ManageCIActivity extends AppCompatActivity implements CIListFragment.OnCISelectedListener, CreateOrEditCIFragment.OnCreateOrSaveCIListener {
     protected FragmentManager fm;

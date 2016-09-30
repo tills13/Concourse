@@ -1,11 +1,9 @@
-package ca.sbstn.concourse;
+package ca.sbstn.concourse.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +12,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import ca.sbstn.concourse.ManageCIActivity;
+import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.adapter.CIListAdapter;
 import ca.sbstn.concourse.api.model.Concourse;
 import io.realm.Realm;

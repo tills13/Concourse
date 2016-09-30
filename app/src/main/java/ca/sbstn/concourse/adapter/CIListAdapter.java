@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.api.model.Concourse;
 
 /**
@@ -48,10 +49,14 @@ public class CIListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = new TextView(this.context);
+            convertView = this.inflater.inflate(R.layout.ci_list_item, null);
         }
 
-        ((TextView) convertView).setText(this.getItem(position).getName());
+        Concourse ci = this.getItem(position);
+
+        ((TextView) convertView.findViewById(R.id.ci_name)).setText(ci.getName());
+        ((TextView) convertView.findViewById(R.id.ci_host)).setText(ci.getHost());
+
         return convertView;
     }
 }

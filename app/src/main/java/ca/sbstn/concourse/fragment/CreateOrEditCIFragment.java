@@ -1,11 +1,11 @@
-package ca.sbstn.concourse;
+package ca.sbstn.concourse.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.util.Locale;
+
+import ca.sbstn.concourse.ManageCIActivity;
+import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.api.model.Concourse;
 import io.realm.Realm;
 
@@ -25,6 +29,7 @@ public class CreateOrEditCIFragment extends Fragment {
 
     protected Realm realm;
 
+    protected View layout;
     protected EditText ciNameEditText;
     protected EditText ciHostEditText;
     protected EditText ciProxyHostEditText;
@@ -71,12 +76,12 @@ public class CreateOrEditCIFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.create_or_edit_ci, container, false);
+        this.layout = inflater.inflate(R.layout.create_or_edit_ci, container, false);
 
-        this.ciNameEditText = (EditText) view.findViewById(R.id.ci_name);
-        this.ciHostEditText = (EditText) view.findViewById(R.id.ci_host);
-        this.ciProxyHostEditText = (EditText) view.findViewById(R.id.ci_proxy_host);
-        this.ciProxyPortEditText = (EditText) view.findViewById(R.id.ci_proxy_port);
+        this.ciNameEditText = (EditText) this.layout.findViewById(R.id.ci_name);
+        this.ciHostEditText = (EditText) this.layout.findViewById(R.id.ci_host);
+        this.ciProxyHostEditText = (EditText) this.layout.findViewById(R.id.ci_proxy_host);
+        this.ciProxyPortEditText = (EditText) this.layout.findViewById(R.id.ci_proxy_port);
 
         if (this.ciName != null) {
             Concourse ci = this.realm.where(Concourse.class).equalTo("name", this.ciName).findFirst();
@@ -85,7 +90,7 @@ public class CreateOrEditCIFragment extends Fragment {
                 this.ciNameEditText.setText(ci.getName());
                 this.ciHostEditText.setText(ci.getHost());
                 this.ciProxyHostEditText.setText(ci.getProxyHost());
-                this.ciProxyPortEditText.setText(String.format("%d", ci.getProxyPort()));
+                this.ciProxyPortEditText.setText(String.format(Locale.getDefault(), "%d", ci.getProxyPort()));
 
                 ActionBar actionBar = ((AppCompatActivity) this.getActivity()).getSupportActionBar();
 
@@ -99,7 +104,7 @@ public class CreateOrEditCIFragment extends Fragment {
 
         this.setHasOptionsMenu(true);
 
-        return view;
+        return this.layout;
     }
 
     @Override
@@ -139,10 +144,8 @@ public class CreateOrEditCIFragment extends Fragment {
 
         realm.beginTransaction();
 
-        // TODO: 9/28/2016 cover the case  where the user has changed the name of the instance
-
         Concourse ci = (this.ciName != null && !this.ciName.equals("")) ?
-            realm.where(Concourse.class).equalTo("name", this.ciName).findFirst() :
+            realm.where(Concourse.class).equalTo("name", this.ciName).findFirst() : // fetch realm object
             realm.createObject(Concourse.class, primaryKey); // create a tracked realm object
 
         if (this.ciName != null && !this.ciName.equals(primaryKey)) {
@@ -152,9 +155,15 @@ public class CreateOrEditCIFragment extends Fragment {
         ci.setHost(this.ciHostEditText.getText().toString());
         ci.setProxyHost(this.ciProxyHostEditText.getText().toString());
 
-        try {
-            ci.setProxyPort(Integer.parseInt(this.ciProxyPortEditText.getText().toString()));
-        } catch (NumberFormatException e) {}
+        String portString = this.ciProxyPortEditText.getText().toString();
+        if (portString.length() != 0) {
+            try {
+                int port = Integer.parseInt(portString);
+                ci.setProxyPort(port < 0 ? -1 : port);
+            } catch (NumberFormatException e) {
+                Snackbar.make(this.layout, "Invalid proxy port #", Snackbar.LENGTH_LONG).show();
+            }
+        }
 
         realm.commitTransaction();
 

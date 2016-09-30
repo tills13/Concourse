@@ -18,6 +18,10 @@ public class Concourse extends RealmObject {
         this.name = name;
     }
 
+    public boolean requiresProxy() {
+        return this.getProxyHost() != null && !this.getProxyHost().equals("");
+    }
+
     public String getProxyHost() {
         return this.proxyHost;
     }

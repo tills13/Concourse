@@ -1,4 +1,3 @@
 <resources>
     <dimen name="activity_horizontal_margin">64dp</dimen>
-    <dimen name="window_view_padding">16dp</dimen>
 </resources>
