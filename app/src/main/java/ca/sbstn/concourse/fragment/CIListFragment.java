@@ -83,11 +83,11 @@ public class CIListFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Concourse ci = ((CIListAdapter) adapterView.getAdapter()).getItem(i);
 
-                if (CIListFragment.this.onCISelectedListener != null) {
-                    return CIListFragment.this.onCISelectedListener.onCILongPressed(ci);
+                if (CIListFragment.this.onCISelectedListener == null) {
+                    return false;
                 }
 
-                return false;
+                return CIListFragment.this.onCISelectedListener.onCILongPressed(ci);
             }
         });
 

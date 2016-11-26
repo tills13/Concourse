@@ -2,11 +2,13 @@ package ca.sbstn.concourse.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by tills13 on 29/09/16.
  */
 
-public class Job {
+public class Job implements Serializable {
     protected String name;
     protected String url;
     @SerializedName("finished_build") protected Build finishedBuild;

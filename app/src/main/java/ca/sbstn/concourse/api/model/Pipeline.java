@@ -2,7 +2,9 @@ package ca.sbstn.concourse.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Pipeline {
+import java.io.Serializable;
+
+public class Pipeline implements Serializable {
     protected String name;
     protected String url;
     protected boolean paused;
@@ -58,6 +60,10 @@ public class Pipeline {
 
     public Build getLastBuild() {
         return lastBuild;
+    }
+
+    public boolean hasTeam() {
+        return this.team != null && this.team.equals("");
     }
 
     public void setLastBuild(Build lastBuild) {

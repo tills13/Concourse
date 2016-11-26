@@ -1,14 +1,19 @@
 package ca.sbstn.concourse.api.model;
 
+import android.graphics.Color;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tills13 on 29/09/16.
  */
 
-public class Build {
+public class Build implements Serializable {
     protected int id;
     protected String name;
     protected String status;
@@ -42,6 +47,12 @@ public class Build {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getStatusColor() {
+        List<String> statuses = Arrays.asList("pending", "succeeded", "failed", "errored", "aborted", "started", "paused");
+        String[] colors = new String[]{"#BDC3C7", "#2ECC71", "#E74C3C", "#E67E22", "#8F4B2D", "#F1C40F", "#3498DB"};
+        return Color.parseColor(colors[statuses.indexOf(this.getStatus())]);
     }
 
     public String getJobName() {

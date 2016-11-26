@@ -11,18 +11,40 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:theme="@style/AppBar">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/Toolbar"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:subtitleTextAppearance="@style/AppTheme.MonospaceText"/>
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/drawer_layout"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#fff"
+            android:orientation="vertical">
+            <ListView
+                android:id="@+id/drawer_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/colorPrimaryDark"/>
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
 </android.support.design.widget.CoordinatorLayout>
