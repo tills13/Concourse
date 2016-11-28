@@ -33,7 +33,7 @@ public class ManageCIActivity extends AppCompatActivity implements CIListFragmen
         this.actionBar = this.getSupportActionBar();
 
         if (this.actionBar != null) {
-            this.actionBar.setTitle("Concourse");
+            this.actionBar.setTitle("ConcourseApplication");
         }
 
         FragmentTransaction transaction = this.fm.beginTransaction();
@@ -77,8 +77,8 @@ public class ManageCIActivity extends AppCompatActivity implements CIListFragmen
 
     @Override
     public void onCISelected(Concourse ci) {
-        Intent intent = new Intent(this, CIActivity.class);
-        intent.putExtra(CIActivity.ARG_CI_NAME, ci.getName());
+        Intent intent = new Intent(this, ConcourseActivity.class);
+        intent.putExtra(ConcourseActivity.ARG_CI_NAME, ci.getName());
 
         startActivity(intent);
     }

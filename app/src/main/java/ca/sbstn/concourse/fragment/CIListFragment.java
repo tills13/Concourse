@@ -47,11 +47,7 @@ public class CIListFragment extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         List<Concourse> ciServers = realm.where(Concourse.class).findAll();
 
-        if (ciServers.size() == 0) {
-            this.listEmptyNotice.setVisibility(View.VISIBLE);
-        } else {
-            this.listEmptyNotice.setVisibility(View.GONE);
-        }
+        this.listEmptyNotice.setVisibility(ciServers.size() == 0 ? View.VISIBLE : View.GONE);
 
         ((CIListAdapter) this.ciList.getAdapter()).setServers(ciServers);
         ((CIListAdapter) this.ciList.getAdapter()).notifyDataSetChanged();

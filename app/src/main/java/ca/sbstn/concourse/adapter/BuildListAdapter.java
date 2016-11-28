@@ -1,7 +1,6 @@
 package ca.sbstn.concourse.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,13 @@ import java.util.List;
 
 import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.api.model.Build;
-import ca.sbstn.concourse.api.model.Pipeline;
 
 public class BuildListAdapter extends BaseAdapter {
-    protected  List<Build> builds = new ArrayList<>();
-    protected Context context;
-    protected LayoutInflater inflater;
+    private  List<Build> builds = new ArrayList<>();
+    private Context context;
+    private LayoutInflater inflater;
 
-    protected boolean showBuildStatus = true;
+    private boolean showBuildStatus = true;
 
     public BuildListAdapter(Context context) {
         this.context = context;
@@ -73,7 +71,6 @@ public class BuildListAdapter extends BaseAdapter {
         } else {
             convertView.findViewById(R.id.status_indicator).setVisibility(View.GONE);
         }
-
 
         return convertView;
     }

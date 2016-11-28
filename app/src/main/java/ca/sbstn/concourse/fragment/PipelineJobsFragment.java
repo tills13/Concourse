@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import android.widget.ListView;
 import java.net.HttpURLConnection;
 import java.util.List;
 
-import ca.sbstn.concourse.CIActivity;
+import ca.sbstn.concourse.ConcourseActivity;
 import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.adapter.JobsListAdapter;
 import ca.sbstn.concourse.api.ConcourseAPIService;
@@ -43,7 +42,7 @@ public class PipelineJobsFragment extends Fragment {
 
     protected Realm realm;
     protected Pipeline pipeline;
-    protected CIActivity context;
+    protected ConcourseActivity context;
 
     protected View layout;
     protected SwipeRefreshLayout refreshLayout;
@@ -67,7 +66,7 @@ public class PipelineJobsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        this.context = (CIActivity) context;
+        this.context = (ConcourseActivity) context;
         this.onJobSelectedListener = (OnJobSelectedListener) context;
     }
 

@@ -13,14 +13,11 @@ import java.util.List;
 import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.api.model.Concourse;
 
-/**
- * Created by tills13 on 14/09/16.
- */
 public class CIListAdapter extends BaseAdapter {
-    List<Concourse> servers = new ArrayList<>();
+    private List<Concourse> servers = new ArrayList<>();
 
-    protected LayoutInflater inflater;
-    protected Context context;
+    private LayoutInflater inflater;
+    private Context context;
 
     public CIListAdapter(Context context) {
         this.context = context;

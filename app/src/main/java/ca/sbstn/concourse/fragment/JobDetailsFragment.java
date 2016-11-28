@@ -1,8 +1,6 @@
 package ca.sbstn.concourse.fragment;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,15 +24,13 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ca.sbstn.concourse.CIActivity;
+import ca.sbstn.concourse.ConcourseActivity;
 import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.adapter.BuildListAdapter;
-import ca.sbstn.concourse.adapter.JobsListAdapter;
 import ca.sbstn.concourse.api.ConcourseAPIService;
 import ca.sbstn.concourse.api.model.Build;
 import ca.sbstn.concourse.api.model.Job;
 import ca.sbstn.concourse.api.model.Pipeline;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +42,7 @@ public class JobDetailsFragment extends Fragment {
 
     private Job job;
     private Pipeline pipeline;
-    protected CIActivity context;
+    protected ConcourseActivity context;
     private Handler handler;
     private Timer timer;
 
@@ -290,7 +286,7 @@ public class JobDetailsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        this.context = (CIActivity) context;
+        this.context = (ConcourseActivity) context;
         this.onBuildSelectedListener = (OnBuildSelectedListener) context;
     }
 

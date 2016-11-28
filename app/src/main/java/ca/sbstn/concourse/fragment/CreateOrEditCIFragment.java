@@ -171,6 +171,8 @@ public class CreateOrEditCIFragment extends Fragment {
                 ci.setProxyPort(port < 0 ? -1 : port);
             } catch (NumberFormatException e) {
                 Snackbar.make(this.layout, "Invalid proxy port #", Snackbar.LENGTH_LONG).show();
+                realm.cancelTransaction();
+                return null;
             }
         }
 

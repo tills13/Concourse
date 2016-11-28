@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -30,6 +29,7 @@ import ca.sbstn.concourse.fragment.BuildDetailsFragment;
 import ca.sbstn.concourse.fragment.PipelineListFragment;
 import ca.sbstn.concourse.fragment.JobDetailsFragment;
 import ca.sbstn.concourse.fragment.PipelineJobsFragment;
+
 import io.realm.Realm;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -41,7 +41,10 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CIActivity extends AppCompatActivity implements PipelineListFragment.OnPipelineSelectedListener, PipelineJobsFragment.OnJobSelectedListener, JobDetailsFragment.OnBuildSelectedListener {
+public class ConcourseActivity extends AppCompatActivity implements
+    PipelineListFragment.OnPipelineSelectedListener,
+    PipelineJobsFragment.OnJobSelectedListener,
+    JobDetailsFragment.OnBuildSelectedListener {
     public static final String ARG_CI_NAME = "ARG_CI_NAME";
 
     protected ActionBar actionBar;
@@ -78,8 +81,6 @@ public class CIActivity extends AppCompatActivity implements PipelineListFragmen
         PipelineListAdapter adapter = new PipelineListAdapter(this);
         adapter.setShowPipelineStatus(false);
         drawerList.setAdapter(adapter);
-
-        //((TextView) drawerLayout.findViewById(R.id.drawer_title)).setText("Pipelines");
 
         String ciName = this.getIntent().getStringExtra(ARG_CI_NAME);
 
@@ -160,6 +161,7 @@ public class CIActivity extends AppCompatActivity implements PipelineListFragmen
 
         ((PipelineListAdapter) this.drawerList.getAdapter()).clearPipelines();
         ((PipelineListAdapter) this.drawerList.getAdapter()).notifyDataSetChanged();
+
         this.populateSidebarPipelines();
     }
 
@@ -209,9 +211,8 @@ public class CIActivity extends AppCompatActivity implements PipelineListFragmen
         this.actionBar.setTitle(pipeline.getName());
         this.actionBar.setSubtitle(null);
 
-        FragmentTransaction ft = this.fm.beginTransaction();
-
-        ft.replace(R.id.fragment_container, PipelineJobsFragment.newInstance(pipeline));
+        FragmentTransaction ft = this.fm.beginTransaction()
+            .replace(R.id.fragment_container, PipelineJobsFragment.newInstance(pipeline));
 
         if (addToBackStack) {
             ft.addToBackStack(null);

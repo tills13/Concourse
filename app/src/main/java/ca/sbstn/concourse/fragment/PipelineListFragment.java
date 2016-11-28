@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,10 @@ import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Locale;
 
-import ca.sbstn.concourse.CIActivity;
+import ca.sbstn.concourse.ConcourseActivity;
 import ca.sbstn.concourse.R;
 import ca.sbstn.concourse.adapter.PipelineListAdapter;
 import ca.sbstn.concourse.api.model.Concourse;
-import ca.sbstn.concourse.api.model.Job;
 import ca.sbstn.concourse.api.model.Pipeline;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -37,7 +35,7 @@ public class PipelineListFragment extends Fragment {
 
     protected Realm realm;
     protected Concourse ci;
-    protected CIActivity context;
+    protected ConcourseActivity context;
 
     protected View layout;
     protected SwipeRefreshLayout refreshLayout;
@@ -60,8 +58,8 @@ public class PipelineListFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        this.context = (CIActivity) context;
-        this.onPipelineSelectedListener = (CIActivity) context;
+        this.context = (ConcourseActivity) context;
+        this.onPipelineSelectedListener = (ConcourseActivity) context;
     }
 
     @Override
